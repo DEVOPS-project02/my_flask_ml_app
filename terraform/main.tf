@@ -4,7 +4,7 @@ provider "aws" {
 
 resource "aws_instance" "app_server" {
   ami           = "ami-0dba2cb6798deb6d8"  # Example Ubuntu 22.04 LTS AMI in us-east-1
-  instance_type = "t3.large"
+  instance_type = "t3.xlarge"
 
   tags = {
     Name = "flask-ml-app-server"
