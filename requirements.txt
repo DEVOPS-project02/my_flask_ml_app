@@ -1,6 +1,6 @@
 Flask==2.3.2
 tensorflow-cpu==2.13.0         # CPU version of TensorFlow (includes Keras)
-Keras==2.7.0
+Keras==2.13.1
 opencv-python-headless==4.11.0.86
 numpy==1.24.4
 Werkzeug==2.3.7
