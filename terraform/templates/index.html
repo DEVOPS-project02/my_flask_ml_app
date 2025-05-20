@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffee</title>
+
+    <!-- SWIPER -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+
+    <!-- Font Awesome CDN Link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- Custom CSS File Link -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+        <div id="menu-btn" class="fas fa-bars"></div>
+
+        <a href="#" class="logo">Arecanut <i class="fas fa-seedling"></i></a>
+
+        <nav class="navbar">
+            <a href="#home">Home</a>
+            <a href="#classify">Classification</a>
+            <a href="#process">Process</a>
+            <a href="#about">About</a>
+        </nav>
+
+    </header>
+
+    <!-- HOME -->
+    <section class="home" id="home">
+        <div class="row">
+            <div class="content">
+                <h3>The seed of tradition, culture and commerce.</h3>
+            </div>
+
+            <div class="image">
+                <img src="{{ url_for('static', filename='image/float.jpg') }}" class="main-home-image" alt="">
+            </div>
+        </div>
+
+        <div class="image-slider">
+            <img src="{{ url_for('static', filename='image/bv2.png') }}" alt="">
+            <img src="{{ url_for('static', filename='image/bv6.png') }}" alt="">
+            <img src="{{ url_for('static', filename='image/bv4.png') }}" alt="">
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about" id="classify">
+        <div class="container">
+            <h1 class="heading">Classify Arecanut <span>Upload and Classify</span></h1>
+
+            <div class="row">
+                <div class="image">
+                    <!-- Form for uploading the image -->
+                    <form action="/upload" method="POST" enctype="multipart/form-data">
+                        <label for="file-upload" class="custom-file-upload">
+                            Choose File
+                        </label>
+                        <input type="file" name="file" id="file-upload" accept="image/*" required>
+                        <button type="submit" class="btn">Upload and Classify</button>
+                    </form>
+                </div>
+
+                <div class="content">
+                    <h3 class="title">Classification Result</h3>
+
+                    {% if result %}
+                    <p><strong>Classification:</strong> {{ result }}</p>
+                    <div class="image">
+                        <img src="{{ image_path }}" alt="Result Image">
+                    </div>
+                    {% else %}
+                    <p>Upload an image to see the classification result.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- REVIEW -->
+    <section class="review" id="process">
+        <h1 class="heading">Post Harvesting <span>Process</span></h1>
+
+        <div class="swiper review-slider">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide box">
+                    <span style="font-size: 20px; font-weight: bold;">Traditional husk peeling</span>
+
+                    <img src="{{ url_for('static', filename='image/process1.jpg') }}" alt="Review Image 1">
+
+                    <p>Traditional arecanut husk peeling involves manually splitting the husk using a specialized iron blade or knife, requiring skill and precision.</p>
+                </div>
+
+                <div class="swiper-slide box">
+                    <span style="font-size: 20px; font-weight: bold;">Husk Peeling Using Machine</span>
+                    <img src="{{ url_for('static', filename='image/process3.png') }}" alt="Review Image 2">
+                    <p>Arecanut husk peeling using a machine involves mechanical blades or rollers that automatically remove the husk efficiently and quickly.</p>
+                </div>
+
+                <div class="swiper-slide box">
+                    <span style="font-size: 20px; font-weight: bold;">Boiling of Arecanut</span>
+
+                    <img src="{{ url_for('static', filename='image/process2.jpg') }}" alt="Review Image 3">
+                    <p>Arecanut boiling involves immersing peeled arecanuts in hot water for processing, enhancing flavor, and preparing them for drying or further use.</p>
+                </div>
+
+                <div class="swiper-slide box">
+                    <span style="font-size: 20px; font-weight: bold;">Drying and Grading</span>
+                    <img src="{{ url_for('static', filename='image/process4.jpg') }}" alt="Review Image 4">
+                    <p>Arecanut drying involves placing peeled and boiled arecanuts under the sun for 7-10 days to reduce moisture content and preserve them.</p>
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </section>
+
+    <!-- MENU -->
+    <section class="menu" id="about">
+        <h1 class="heading">Developers <span>About Us</span></h1>
+
+        <div class="box-container">
+            <a href="#" class="box">
+                <img src="{{ url_for('static', filename='image/NEC0822020.JPG') }}" alt="">
+                <div class="content">
+                    <h3>BALE SUNIL KUMAR REDDY</h3>
+                    <p>6th sem,</p>
+                    <span>NTTF</span>
+                </div>
+            </a>
+
+            <a href="#" class="box">
+                <img src="{{ url_for('static', filename='image/') }}" alt="">
+                <div class="content">
+                    <h3>MUTHANNA BALAJI</h3>
+                    <p>6th sem, CSE</p>
+                    <span>NTTF</span>
+                </div>
+            </a>
+
+            <a href="#" class="box">
+                <img src="{{ url_for('static', filename='image/') }}" alt="">
+                <div class="content">
+                    <h3> SHREEKANTH Y K</h3>
+                    <p>6th sem, CSE</p>
+                    <span>NTTF</span>
+                </div>
+            </a>
+
+            <a href="#" class="box">
+                <img src="{{ url_for('static', filename='image/') }}" alt="">
+                <div class="content">
+                    <h3>SHRAVAN S VINOD</h3>
+                    <p>6th sem, CSE</p>
+                    <span>NTTF</span>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <section class="footer">
+        <div class="box-container">
+
+            <div class="box">
+                <h3>quick links</h3>
+                <a href="#home"><i class="fas fa-arrow-right"></i> Home</a>
+                <a href="#classify"><i class="fas fa-arrow-right"></i> Classification</a>
+                <a href="#process"><i class="fas fa-arrow-right"></i> Process</a>
+                <a href="#about"><i class="fas fa-arrow-right"></i> About</a>
+
+            </div>
+
+            <div class="box">
+                <h3>contact info</h3>
+                <a href="#"><i class="fas fa-phone"></i> +123-456-7890</a>
+                <a href="#"><i class="fas fa-phone"></i> +111-222-3333</a>
+                <a href="#"><i class="fas fa-envelope"></i> coffee@gmail.com</a>
+                <a href="#"><i class="fas fa-envelope"></i> Perú, Lima</a>
+            </div>
+
+            <div class="box">
+                <h3>contact info</h3>
+                <a href="#"><i class="fab fa-facebook-f"></i> facebook</a>
+                <a href="#"><i class="fab fa-twitter"></i> twitter</a>
+                <a href="#"><i class="fab fa-instagram"></i> instagram</a>
+                <a href="#"><i class="fab fa-linkedin"></i> linkedin</a>
+                <a href="#"><i class="fab fa-twitter"></i> twitter</a>
+            </div>
+        </div>
+
+        <div class="credit">created by <span>mr. web designer</span> | all rights reserved</div>
+    </section>
+
+    <!-- SWIPER -->
+    <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+
+    <!-- Custom JS File Link -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+
+</html>
