@@ -78,7 +78,7 @@ resource "kubernetes_service" "flask_ml_service" {
 
   spec {
     selector = {
-      app = kubernetes_deployment.flask_ml_app.metadata[0].labels.app
+      app = "flask-ml-app"
     }
 
     port {
