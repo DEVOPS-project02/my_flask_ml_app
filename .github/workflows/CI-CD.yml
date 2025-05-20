@@ -39,6 +39,9 @@ jobs:
 
     - name: Run Unit Tests (Pytest)
       run: pytest tests/test_app.py --junitxml=$TEST_REPORT
+      env:
+         PYTHONPATH: ${{ github.workspace }}
+
 
     - name: Run UI Tests (Selenium)
       run: pytest tests/test_selenium.py
