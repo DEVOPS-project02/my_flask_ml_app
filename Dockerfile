@@ -5,7 +5,7 @@ FROM python:3.10-slim
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
 
-# Install OS-level dependencies
+# Install OS-level dependencies (excluding terraform here)
 RUN apt-get update && apt-get install -y \
     build-essential \
     libglib2.0-0 \
@@ -18,31 +18,37 @@ RUN apt-get update && apt-get install -y \
     curl \
     git \
     unzip \
-    terraform \
+    gnupg \
+    lsb-release \
     && rm -rf /var/lib/apt/lists/*
 
-# Create working directory
+# Add HashiCorp official repo and install Terraform
+RUN wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor > /usr/share/keyrings/hashicorp-archive-keyring.gpg \
+    && echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" > /etc/apt/sources.list.d/hashicorp.list \
+    && apt-get update \
+    && apt-get install -y terraform \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set the working directory
 WORKDIR /app
 
-# Copy requirement files
+# Copy requirements file and install Python dependencies
 COPY requirements.txt .
-
-# Install Python dependencies
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
-# Copy application code
+# Copy the entire project into the image
 COPY . .
 
-# Create upload folder if not exists
+# Ensure uploads directory exists
 RUN mkdir -p static/uploads
 
-# Download YOLO model weights (if not present)
+# Download YOLO model weights if not already present
 RUN mkdir -p models && \
     test -f models/yolov3.weights || \
     wget https://pjreddie.com/media/files/yolov3.weights -P models/
 
-# Expose port for Flask
+# Expose the Flask default port
 EXPOSE 5000
 
-# Run the Flask app
+# Command to run the application
 CMD ["python", "app.py"]
