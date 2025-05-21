@@ -5,14 +5,13 @@ FROM python:3.10-slim
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
 
-# Install OS-level dependencies (excluding terraform here)
 RUN apt-get update && apt-get install -y \
     build-essential \
     libglib2.0-0 \
     libsm6 \
     libxext6 \
-    libxrender-dev \
-    libopencv-dev \
+    libxrender1 \
+    libgl1-mesa-glx \
     ffmpeg \
     wget \
     curl \
