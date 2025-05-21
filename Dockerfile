@@ -36,16 +36,19 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
+# Copy source code and model files
+COPY . /app/
+
 # Copy the entire project into the image
 COPY . .
 
 # Ensure uploads directory exists
 RUN mkdir -p static/uploads
 
-# Download YOLO model weights if not already present
+# Download YOLO model config and weights
 RUN mkdir -p models && \
-    test -f models/yolov3.weights || \
-    wget https://pjreddie.com/media/files/yolov3.weights -P models/
+    wget -nc https://pjreddie.com/media/files/yolov3.cfg -P models/ && \
+    wget -nc https://pjreddie.com/media/files/yolov3.weights -P models/
 
 # Expose the Flask default port
 EXPOSE 5000
