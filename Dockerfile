@@ -29,7 +29,7 @@ COPY requirements.txt .
 # Uninstall conflicting OpenCV versions and install required version
 RUN pip install --upgrade pip && \
     pip uninstall -y opencv-python opencv-contrib-python && \
-    pip install opencv-python==4.8.0 opencv-contrib-python==4.8.0 && \
+    pip install opencv-python==4.8.0.76 opencv-contrib-python==4.8.0.76 && \
     pip install -r requirements.txt
 
 # Copy application code
