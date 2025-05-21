@@ -62,31 +62,6 @@ jobs:
       run: docker push $DOCKER_IMAGE
 
     # -----------------------
-    - name: Set up Terraform
-      uses: hashicorp/setup-terraform@v3
-
-    - name: Terraform Init
-      working-directory: terraform
-      run: terraform init
-
-    - name: Terraform Apply
-      working-directory: terraform
-      run: terraform apply -auto-approve
-
-    # -----------------------
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v2
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        region: eu-north-1
-
-    - name: Deploy to Kubernetes
-      run: |
-        kubectl apply -f deployment/deployment.yaml
-        kubectl apply -f deployment/service.yaml
-
-    # -----------------------
     - name: Upload Test Results
       if: always()
       uses: actions/upload-artifact@v4
