@@ -6,7 +6,7 @@ import tensorflow as tf
 from werkzeug.utils import secure_filename
 
 # Load the YOLO model (object detection)
-net = cv2.dnn.readNetFromDarknet('models/yolov3.cfg', 'models/yolov3.weights')
+net = cv2.dnn.readNet('models/yolov3.cfg', 'models/yolov3.weights')
 
 # Load the Arecanut classifier model
 classifier_model = tf.keras.models.load_model('models/arecanut_classifier.h5')
