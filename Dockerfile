@@ -1,50 +1,40 @@
-# Use an official Python base image
-FROM python:3.10-slim
+# Use Windows Server Core as base image
+FROM mcr.microsoft.com/windows/servercore:ltsc2022
 
 # Set environment variables
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    DEBIAN_FRONTEND=noninteractive
+ENV PYTHONDONTWRITEBYTECODE=1 `
+    PYTHONUNBUFFERED=1 `
+    PYTHON_VERSION=3.10.11
 
-# Install OS-level dependencies
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    libglib2.0-0 \
-    libsm6 \
-    libxext6 \
-    libxrender-dev \
-    ffmpeg \
-    wget \
-    curl \
-    git \
-    unzip \
-    && rm -rf /var/lib/apt/lists/*
+# Install Python
+RUN powershell -Command `
+    Invoke-WebRequest -Uri https://www.python.org/ftp/python/%PYTHON_VERSION%/python-%PYTHON_VERSION%-amd64.exe -OutFile python-installer.exe ; `
+    Start-Process python-installer.exe -ArgumentList '/quiet InstallAllUsers=1 PrependPath=1' -NoNewWindow -Wait ; `
+    Remove-Item -Force python-installer.exe
 
-# Create working directory
+# Verify Python installed
+RUN python --version
+
+# Install pip packages
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Create workdir
 WORKDIR /app
 
-# Copy requirements file
-COPY requirements.txt .
-
-# Uninstall conflicting OpenCV versions and install required version
-RUN pip install --upgrade pip && \
-    pip uninstall -y opencv-python opencv-contrib-python && \
-    pip install opencv-python==4.7.0.72 opencv-contrib-python==4.7.0.72 && \
-    pip install -r requirements.txt
-
-# Copy application code
+# Copy app files
 COPY . .
 
-# Ensure uploads folder exists
-RUN mkdir -p static/uploads
+# Make uploads directory
+RUN mkdir static\uploads
 
 # Download YOLOv3 weights and config
-RUN mkdir -p models && \
-    wget -nc https://pjreddie.com/media/files/yolov3.cfg -P models/ && \
-    wget -nc https://pjreddie.com/media/files/yolov3.weights -P models/
+RUN powershell -Command `
+    Invoke-WebRequest -Uri https://pjreddie.com/media/files/yolov3.weights -OutFile models\yolov3.weights ; `
+    Invoke-WebRequest -Uri https://raw.githubusercontent.com/pjreddie/darknet/master/cfg/yolov3.cfg -OutFile models\yolov3.cfg
 
-# Expose port for Flask
+# Expose Flask port
 EXPOSE 5000
 
-# Run the Flask app
+# Run the app
 CMD ["python", "app.py"]
