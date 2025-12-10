@@ -1,4 +1,5 @@
 # Use Windows Server Core as base image
+
 FROM mcr.microsoft.com/windows/servercore:ltsc2022
 
 # Set environment variables
@@ -38,3 +39,4 @@ EXPOSE 5000
 
 # Run the app
 CMD ["python", "app.py"]
+
